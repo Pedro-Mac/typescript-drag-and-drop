@@ -1,36 +1,4 @@
-//Validation
-interface Validate {
-  value: string | number,
-  required?: boolean,
-  minLength?: number,
-  maxLength?: number,
-  min?: number,
-  max?: number
-}
-
-function validate(validatableInput: Validate): boolean {
-  let isValid = true;
-  if(validatableInput.required) {
-    isValid = isValid && validatableInput.value.toString().trim().length !== 0;
-  }
-
-  if(validatableInput.minLength !== undefined && typeof validatableInput.value === 'string') {
-    isValid = isValid && validatableInput.value.length > validatableInput.minLength;
-  }
-
-  if(validatableInput.maxLength !== undefined && typeof validatableInput.value === 'string') {
-    isValid = isValid && validatableInput.value.length < validatableInput.maxLength;
-  }
-
-  if(validatableInput.min !== undefined && typeof validatableInput.value === 'number') {
-    isValid = isValid && validatableInput.value >= validatableInput.min
-  }
-  if(validatableInput.max !== undefined && typeof validatableInput.value === 'number') {
-    isValid = isValid && validatableInput.value <= validatableInput.max
-  }
-
-  return isValid;
-}
+import {validate, Validatable} from './validate'
 
 //autobind decorator
 const autobind = (_: any, _2: string, descriptor: PropertyDescriptor) => {
@@ -75,17 +43,17 @@ class ProjectInput {
     const enteredDecription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
 
-    const titleValidatable: Validate = {
+    const titleValidatable: Validatable = {
       value: enteredTitle,
       required: true,
       maxLength: 25
     }
-    const descriptionValidatable: Validate = {
+    const descriptionValidatable: Validatable = {
       value: enteredDecription,
       required: true,
       minLength: 5
     }
-    const peopleValidatable: Validate = {
+    const peopleValidatable: Validatable = {
       value: parseFloat(enteredPeople),
       required: true,
       min: 2,
