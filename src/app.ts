@@ -36,23 +36,37 @@ class ProjectInput {
   }
 
 
-  // private gatherUserInput(): [string, string, number] {
-  //   const enteredTitle = this.titleInputElement.value;
-  //   const enteredDecription = this.descriptionInputElement.value;
-  //   const enteredPeople = this.peopleInputElement.value;
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDecription = this.descriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
 
-  //   if(enteredTitle.trim().length === 0 ||
-  //     enteredDecription.trim().length === 0 ||
-  //     enteredPeople.trim().length === 0) {
+    if(enteredTitle.trim().length === 0 ||
+      enteredDecription.trim().length === 0 ||
+      enteredPeople.trim().length === 0) {
+        alert('Your input is invalid!');
+        return;
+      } else {
+        return [enteredTitle, enteredDecription, parseFloat(enteredPeople)];
+      } 
+  }
 
-  //     }
-  // }
+  private clearInputs() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
 
   @autobind
   private handleSubmission(event: Event){
     event.preventDefault();
-    // const userInput = this.gatherUserInput();
-    console.log(this.titleInputElement.value);
+    const userInput = this.gatherUserInput();
+
+    if(Array.isArray(userInput)) {
+      const [title, description, people] = userInput;
+      console.log(title, description, people);
+      this.clearInputs();
+    }
   }
 
 
